@@ -17,7 +17,7 @@ namespace House_PM.Models.Domain
         private string bp;
         private string hr;
         private string br;
-        private int id_patient;
+        private int id_Patient;
 
         [Key]
         public int Id { get => id; set => id = value; }
@@ -30,7 +30,7 @@ namespace House_PM.Models.Domain
         public string Br { get => br; set => br = value; }
 
         [ForeignKey("Patient")]
-        public int Id_patient { get => id_patient; set => id_patient = value; }
+        public int Id_Patient { get => id_Patient; set => id_Patient = value; }
         public Patient Patient { get; set; }
     }
 }

@@ -9,10 +9,11 @@ namespace House_PM.Models.Repository
 {
     public interface IVital
     {
-        void Create(Vital vital);
-        void Update(Vital vital);
-        void Delete(int id);
-        Vital GetById(int id);
-        IQueryable<Vital> GetAll();
+        void Create(Vital recipe);
+        void Update(Vital recipe);
+        void Delete(Vital recipe);
+        Vital GetById(int? id);
+        IQueryable<Vital> GetAll(int id);
+        IQueryable<Patient> GetAllList();
     }
 }

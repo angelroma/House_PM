@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Data.Entity;
 using System.Linq;
 using System.Web;
 using House_PM.Models.Domain;
@@ -12,29 +13,43 @@ namespace House_PM.Models.Repository.EntitySQL
         public ApplicationDbContext context;
         public VitalRepo() => context = ContextFactory.GetContext();
 
-        public void Create(Vital vital)
+        public void Create(Vital entity)
         {
-            throw new NotImplementedException();
+            context.Vitals.Add(entity);
         }
 
-        public void Delete(int id)
+        public void Delete(Vital entity)
         {
-            throw new NotImplementedException();
+            Vital local = GetById(entity.Id);
+            context.Entry<Vital>(local).State = EntityState.Deleted;
         }
 
-        public IQueryable<Vital> GetAll()
+        public IQueryable<Vital> GetAll(int id)
         {
-            throw new NotImplementedException();
+            //I've included vitals to show name in view list
+            return context.Vitals.Select(c => c).Include(r => r.Patient);
         }
 
-        public Vital GetById(int id)
+        //This method is requiring patiens
+        public IQueryable<Patient> GetAllList()
         {
-            throw new NotImplementedException();
+            //return context.Patients.Select(c => c).Include(r => r.Patient);
+            return context.Patients.Select(c => c);
         }
 
-        public void Update(Vital vital)
+        public Vital GetById(int? id)
         {
-            throw new NotImplementedException();
+            return context.Vitals.FirstOrDefault(c => c.Id == id);
+        }
+
+        public void Update(Vital entity)
+        {
+            Vital local = GetById(entity.Id);
+            if (local != null)
+            {
+                context.Entry(local).State = EntityState.Detached;
+            }
+            context.Entry(entity).State = EntityState.Modified;
         }
     }
 }

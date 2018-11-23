@@ -12,7 +12,7 @@ namespace House_MD.Business
 {
     public class VitalService
     {
-        IVital vitalRepo;
+        IVital repo;
         IUnitOfWork unitOfWork;
 
         public VitalService() : this(new VitalRepo(), new UnitOfWork())
@@ -22,7 +22,7 @@ namespace House_MD.Business
 
         public VitalService(IVital vitalRepo, UnitOfWork unitOfWork)
         {
-            this.vitalRepo = vitalRepo;
+            this.repo = vitalRepo;
             this.unitOfWork = unitOfWork;
         }
 
@@ -31,10 +31,7 @@ namespace House_MD.Business
         {
             try
             {
-                //var loggedUserId = HttpContext.Current.User.Identity.GetUserId();
-                //entity.Id_Users = loggedUserId;
-
-                vitalRepo.Create(entity);
+                repo.Create(entity);
                 unitOfWork.Commit();
                 return true;
             }
@@ -49,7 +46,7 @@ namespace House_MD.Business
         {
             try
             {
-                vitalRepo.Update(entity);
+                repo.Update(entity);
                 unitOfWork.Commit();
                 return true;
             }
@@ -60,11 +57,11 @@ namespace House_MD.Business
             }
         }
 
-        public bool Delete(int id)
+        public bool Delete(Vital entity)
         {
             try
             {
-                vitalRepo.Delete(id);
+                repo.Delete(entity);
                 unitOfWork.Commit();
                 return true;
             }
@@ -79,7 +76,7 @@ namespace House_MD.Business
         {
             try
             {
-               return vitalRepo.GetById(id);
+               return repo.GetById(id);
             }
             catch
             {
@@ -87,11 +84,23 @@ namespace House_MD.Business
             }
         }
 
-        public List<Vital> GetAll()
+        public List<Vital> GetAll(int id)
         {
             try
             {
-                return vitalRepo.GetAll().ToList();
+                return repo.GetAll(id).Where(c => c.Id_Patient == id).ToList();
+                //return repo.GetAll().ToList();
+            }
+            catch
+            {
+                return null;
+            }
+        }
+        public List<Patient> GetAllList()
+        {
+            try
+            {
+                return repo.GetAllList().ToList();
             }
             catch
             {
