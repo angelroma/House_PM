@@ -13,6 +13,3 @@ So basically this proyect includes:
 * Restrictions and security.
 * 3 Tables in SQL server.
 * Code-First approach
-
-# WARNING
-This project will be deprecated and remplaced for the House_PM 2 version which is re-developed with React and ASP.NET Core technologies.
